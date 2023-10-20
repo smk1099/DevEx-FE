@@ -1,16 +1,15 @@
+import { useNavigate } from "react-router-dom";
+
 import { Box, Button, TextField, Typography, darken } from "@mui/material";
+
 import MyButton from "../components/MyButton";
+import BaseBox from "../components/BaseBox";
 
 const Signup = () => {
+  const navigate = useNavigate();
   return (
     <>
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        width="100%"
-        sx={{ boxSizing: "border-box" }}
-      >
+      <BaseBox>
         <Box
           display="flex"
           alignItems="center"
@@ -45,7 +44,7 @@ const Signup = () => {
           height="700px"
         >
           <Box display="flex" justifyContent="center">
-            로고 넣기
+            로고
           </Box>
           <Box component="form">
             <TextField
@@ -103,10 +102,16 @@ const Signup = () => {
             </Button>
           </Box>
           <Box display="flex" pt={4}>
-            <MyButton value="Cancel" type="negative" onClick={() => {}} />
+            <MyButton
+              value="Cancel"
+              type="negative"
+              onClick={() => {
+                navigate(-1);
+              }}
+            />
           </Box>
         </Box>
-      </Box>
+      </BaseBox>
     </>
   );
 };

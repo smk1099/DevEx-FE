@@ -1,14 +1,20 @@
 import "./App.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import { Grid } from "@mui/material";
 
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
 import Signup from "./Pages/Signup";
-import { Grid } from "@mui/material";
+import Order from "./Pages/Order";
+import OrderResult from "./Pages/OrderResult";
+import HandList from "./Pages/HandList";
+import HandRegist from "./Pages/HandRegist";
+import HandInfo from "./Pages/HandInfo";
 
 function App() {
   const theme = createTheme({
@@ -35,7 +41,7 @@ function App() {
     },
     palette: {
       primary: {
-        main: "#556cee",
+        main: "#578fe4",
       },
       secondary: {
         main: "#c6cffb",
@@ -50,8 +56,13 @@ function App() {
         <Grid width="1500px">
           <Routes>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/Login" element={<Login />}></Route>
-            <Route path="/Signup" element={<Signup />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/order" element={<Order />}></Route>
+            <Route path="/orderresult" element={<OrderResult />}></Route>
+            <Route path="/handlist" element={<HandList />}></Route>
+            <Route path="/handregist" element={<HandRegist />}></Route>
+            <Route path="/handinfo" element={<HandInfo />}></Route>
           </Routes>
           <Footer />
         </Grid>

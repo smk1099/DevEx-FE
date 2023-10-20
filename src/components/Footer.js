@@ -15,7 +15,7 @@ const Footer = () => {
             justifyContent="center"
             sx={{ mt: 8 }}
           >
-            로고 넣기
+            로고
           </Grid>
         </Grid>
       </Toolbar>

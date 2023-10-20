@@ -1,15 +1,14 @@
+import { useNavigate } from "react-router-dom";
+
 import { Box, Button, TextField, Typography, darken } from "@mui/material";
+
 import MyButton from "../components/MyButton";
+import BaseBox from "../components/BaseBox";
 
 const Login = () => {
-  //submit 시 GET 방식이 아닌 다른 방법을 고려해야 할것으로 생각됨.
+  const navigate = useNavigate();
   return (
-    <Box
-      display="flex"
-      justifyContent="center"
-      width="100%"
-      sx={{ boxSizing: "border-box" }}
-    >
+    <BaseBox>
       <Box
         display="flex"
         flexDirection="column"
@@ -18,7 +17,7 @@ const Login = () => {
         height="700px"
       >
         <Box display="flex" justifyContent="center">
-          로고 넣기
+          로고
         </Box>
         <Box display="flex" justifyContent="center" my={4}>
           <Typography color="primary" variant="h4" sx={{ fontWeight: "700" }}>
@@ -31,7 +30,7 @@ const Login = () => {
             required
             fullWidth
             id="email"
-            label="email"
+            label="Email"
             name="email"
             autoComplete="id"
             autoFocus
@@ -62,10 +61,16 @@ const Login = () => {
           </Button>
         </Box>
         <Box display="flex" justifyContent="end" pt={4}>
-          <MyButton value="Sign Up" type="negative" onClick={() => {}} />
+          <MyButton
+            value="Sign Up"
+            type="negative"
+            onClick={() => {
+              navigate("/signup");
+            }}
+          />
         </Box>
       </Box>
-    </Box>
+    </BaseBox>
   );
 };
 

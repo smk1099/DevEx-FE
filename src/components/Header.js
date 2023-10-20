@@ -1,7 +1,9 @@
-import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
+import { Box, Button, IconButton, Toolbar, Typography } from "@mui/material";
 const Header = () => {
-  //페이지 상단에 고정되는 네비게이션 바, 아직 링크 연결은 안함.
+  //페이지 상단에 고정되는 네비게이션 바
+  const navigate = useNavigate();
   return (
     <Toolbar
       variant="dense"
@@ -15,19 +17,37 @@ const Header = () => {
       }}
     >
       <Box mx={4}>
-        <IconButton></IconButton>
+        <IconButton
+          onClick={() => {
+            navigate("/");
+          }}
+        >
+          로고
+        </IconButton>
       </Box>
-      <Box mx={3}>
+      <Box
+        component={Button}
+        mx={3}
+        onClick={() => {
+          navigate("/order");
+        }}
+      >
         <Typography sx={{ color: "white", fontWeight: "bold" }}>
           견적비교
         </Typography>
       </Box>
-      <Box mx={3}>
+      <Box
+        component={Button}
+        mx={3}
+        onClick={() => {
+          navigate("/handlist");
+        }}
+      >
         <Typography sx={{ color: "white", fontWeight: "bold" }}>
           핸드캐리
         </Typography>
       </Box>
-      <Box mx={3}>
+      <Box component={Button} mx={3}>
         <Typography sx={{ color: "white", fontWeight: "bold" }}>
           마이페이지
         </Typography>
@@ -36,6 +56,9 @@ const Header = () => {
       {/* 버튼을 오른쪽으로 배치하기 위한 코드 */}
       <Box>
         <Button
+          onClick={() => {
+            navigate("/login");
+          }}
           sx={{
             backgroundColor: "#11ac0a",
             color: "white",

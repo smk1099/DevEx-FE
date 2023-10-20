@@ -1,6 +1,7 @@
 import { Box, Typography } from "@mui/material";
 
 const Home = () => {
+  //홈페이지
   return (
     <Box sx={{ width: "100%", boxSizing: "border-box" }}>
       <Box
@@ -10,9 +11,7 @@ const Home = () => {
         display="flex"
         justifyContent="space-between"
       >
-        <Box width="45%" border={"1px solid"}>
-          적절한 이미지
-        </Box>
+        <Box width="45%" border={"1px solid"}></Box>
         <Box
           width="45%"
           display="flex"
@@ -22,7 +21,9 @@ const Home = () => {
           <Typography variant="h5" fontWeight={700}>
             서비스 소개
           </Typography>
-          <Typography mt={2}>서비스 소개글</Typography>
+          <Typography mt={2}>
+            수출 견적, 배송비, 일정 안내 소규모 수출 서비스
+          </Typography>
         </Box>
       </Box>
       <Box
@@ -41,11 +42,12 @@ const Home = () => {
           <Typography variant="h5" fontWeight={700}>
             비전
           </Typography>
-          <Typography mt={2}>비전 소개글</Typography>
+          <Typography mt={2}>
+            Fedex, UPS 등 해외 물류 api 통합과 핸드캐리 업체와의 제휴를 통한
+            다양한 경로 안내
+          </Typography>
         </Box>
-        <Box width="45%" border={"1px solid"}>
-          적절한 이미지
-        </Box>
+        <Box width="45%" border={"1px solid"}></Box>
       </Box>
     </Box>
   );
