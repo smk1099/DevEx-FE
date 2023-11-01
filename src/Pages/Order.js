@@ -13,8 +13,9 @@ const Order = () => {
   //pageNumber가 3이 되면 서버로 전송할 데이터를 결과 페이지로 이동시킨다.
   //그 다음, 결과 페이지에서 서버로부터 데이터를 요청한다.
   //전송받은 데이터를 정리해 결과페이지에서 사용자에게 보여준다.
-  const [pageNumber, setPageNumber] = useState(1);
   const obj = { name: "n", age: 33, time: 70 };
+
+  const [pageNumber, setPageNumber] = useState(1);
 
   const navigate = useNavigate();
   return (

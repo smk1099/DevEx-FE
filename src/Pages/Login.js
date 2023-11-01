@@ -4,9 +4,38 @@ import { Box, Button, TextField, Typography, darken } from "@mui/material";
 
 import MyButton from "../components/MyButton";
 import BaseBox from "../components/BaseBox";
+import { useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   const navigate = useNavigate();
+  const [loginInfo, setLoginInfo] = useState({
+    email: "",
+    password: "",
+  });
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setLoginInfo((prev) => ({
+      ...prev,
+      [id]: value,
+    }));
+  };
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("YOUR_LOGIN_SERVER_URL", {
+        email: loginInfo.email,
+        password: loginInfo.password,
+      });
+      console.log("Server Response:", response.data);
+
+      // 여기서 필요한 로직(예: 토큰 저장, 리다이렉트 등)을 추가할 수 있습니다.
+    } catch (error) {
+      console.error("Login error:", error);
+      // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
+    }
+  };
+
   return (
     <BaseBox>
       <Box
@@ -24,26 +53,27 @@ const Login = () => {
             Log In
           </Typography>
         </Box>
-        <Box component="form">
+        <Box component="form" onSubmit={handleLogin}>
           <TextField
             margin="normal"
             required
             fullWidth
+            value={loginInfo.email}
+            onChange={handleChange}
+            type="email"
             id="email"
             label="Email"
-            name="email"
-            autoComplete="id"
             autoFocus
           />
           <TextField
             margin="normal"
             required
             fullWidth
-            name="password"
+            value={loginInfo.password}
+            onChange={handleChange}
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
           />
           <Button
             type="submit"
@@ -63,7 +93,7 @@ const Login = () => {
         <Box display="flex" justifyContent="end" pt={4}>
           <MyButton
             value="Sign Up"
-            type="negative"
+            job="negative"
             onClick={() => {
               navigate("/signup");
             }}

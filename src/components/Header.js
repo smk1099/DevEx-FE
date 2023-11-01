@@ -40,11 +40,11 @@ const Header = () => {
         component={Button}
         mx={3}
         onClick={() => {
-          navigate("/handlist");
+          navigate("/handregist");
         }}
       >
         <Typography sx={{ color: "white", fontWeight: "bold" }}>
-          핸드캐리
+          핸드캐리 등록
         </Typography>
       </Box>
       <Box component={Button} mx={3}>

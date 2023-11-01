@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-const BaseBox = ({ children, props }) => {
+const BaseBox = ({ children, ...rest }) => {
   return (
     <Box
       display="flex"
@@ -8,7 +8,7 @@ const BaseBox = ({ children, props }) => {
       alignItems="center"
       width="100%"
       sx={{ boxSizing: "border-box" }}
-      {...props}
+      {...rest}
     >
       {children}
     </Box>

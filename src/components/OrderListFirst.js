@@ -33,7 +33,7 @@ const OrderListFirst = ({ setPageNumber }) => {
       </Box>
       <Box width="300px" my={5} display="flex" justifyContent="space-between">
         <MyButton
-          type="negative"
+          job="negative"
           value="뒤로 가기"
           onClick={() => {
             navigate(-1);

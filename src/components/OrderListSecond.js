@@ -1,12 +1,11 @@
+import { useState } from "react";
+
 import {
   Box,
   FormControl,
-  FormControlLabel,
   InputLabel,
   MenuItem,
   OutlinedInput,
-  Radio,
-  RadioGroup,
   Select,
   TextField,
   Typography,
@@ -15,35 +14,18 @@ import {
 import MyButton from "./MyButton";
 import BaseBox from "./BaseBox";
 import DoubleBox from "./DoubleBox";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 
 const OrderListSecond = ({ setPageNumber }) => {
   //입력받는 변수들 이름 설정 필요, state를 통한 입력 정보 저장 예정
+
+  const [selectedDate, setSelectedDate] = useState(null);
   return (
     <BaseBox>
       <Box mt={5} width="900px">
-        {/*1번 선택*/}
-        <Typography mb={2} variant="h6" fontWeight="700">
-          1. 운송타입 선택
-        </Typography>
-        <FormControl sx={{ mb: 2 }}>
-          <RadioGroup row defaultValue="FCL" name="radio-buttons-group">
-            <FormControlLabel
-              sx={{ mx: 2 }}
-              value="FCL"
-              control={<Radio />}
-              label="FCL"
-            />
-            <FormControlLabel
-              sx={{ mx: 12 }}
-              value="LCL"
-              control={<Radio />}
-              label="LCL"
-            />
-          </RadioGroup>
-        </FormControl>
-        {/*2번 선택*/}
         <Typography variant="h6" fontWeight="700">
-          2. 화물정보 입력
+          1. 화물정보 입력
         </Typography>
         {/*DoubleBox는 회색, 흰색으로 이루어진 박스를 만들기 위해 선언한 임의 컴포넌트*/}
         <DoubleBox
@@ -54,7 +36,7 @@ const OrderListSecond = ({ setPageNumber }) => {
             px: "30px",
             width: "700px",
           }}
-          props2={{ p: 2, height: "400px" }}
+          props2={{ p: 2, height: "500px" }}
         >
           <Typography mb={2} fontWeight="700">
             품명
@@ -63,7 +45,7 @@ const OrderListSecond = ({ setPageNumber }) => {
           <Box mb={2} display="flex" justifyContent="space-between">
             <Box>
               <Typography mb={2} fontWeight="700">
-                컨테이너 유형
+                카테고리
               </Typography>
               <FormControl>
                 <InputLabel>유형 선택</InputLabel>
@@ -79,145 +61,89 @@ const OrderListSecond = ({ setPageNumber }) => {
             </Box>
             <Box>
               <Typography mb={2} fontWeight="700">
-                컨테이너 사이즈
+                무게
               </Typography>
-              <FormControl>
-                <InputLabel>사이즈 선택</InputLabel>
-                <Select
-                  sx={{ width: "150px" }}
-                  input={<OutlinedInput label="사이즈 선택" />}
-                >
-                  <MenuItem value={1}>1</MenuItem>
-                  <MenuItem value={2}>2</MenuItem>
-                  <MenuItem value={3}>3</MenuItem>
-                </Select>
-              </FormControl>
+              <TextField sx={{ width: "150px" }} label="무게 입력"></TextField>
             </Box>
             <Box>
               <Typography mb={2} fontWeight="700">
-                컨테이너 개수
+                무게 단위
               </Typography>
-              <TextField sx={{ width: "150px" }} label="개수 입력"></TextField>
+              <FormControl>
+                <InputLabel>유형 선택</InputLabel>
+                <Select
+                  sx={{ width: "150px" }}
+                  input={<OutlinedInput label="단위 선택" />}
+                >
+                  <MenuItem value={1}>Kg</MenuItem>
+                  <MenuItem value={2}>유형2</MenuItem>
+                  <MenuItem value={3}>유형3</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
           </Box>
-          <Typography mb={2} fontWeight="700">
-            위험물
-          </Typography>
-          <TextField sx={{ mb: 2 }} fullWidth label="예/아니오"></TextField>
+          <Box mt={5} mb={2} display="flex" justifyContent="space-between">
+            <Box>
+              <Typography mb={2} fontWeight="700">
+                길이
+              </Typography>
+              <TextField
+                sx={{ width: "150px" }}
+                label="포장 포함 길이"
+              ></TextField>
+            </Box>
+            <Box>
+              <Typography mb={2} fontWeight="700">
+                너비
+              </Typography>
+              <TextField
+                sx={{ width: "150px" }}
+                label="포장 포함 너비"
+              ></TextField>
+            </Box>
+            <Box>
+              <Typography mb={2} fontWeight="700">
+                높이
+              </Typography>
+              <TextField
+                sx={{ width: "150px" }}
+                label="포장 포함 높이"
+              ></TextField>
+            </Box>
+          </Box>
+          <Box>
+            <Typography mb={2} fontWeight="700">
+              길이 측정 단위
+            </Typography>
+            <FormControl>
+              <InputLabel>단위 선택</InputLabel>
+              <Select
+                sx={{ width: "150px" }}
+                input={<OutlinedInput label="단위 선택" />}
+              >
+                <MenuItem value={1}>cm</MenuItem>
+                <MenuItem value={2}>유형2</MenuItem>
+                <MenuItem value={3}>유형3</MenuItem>
+              </Select>
+            </FormControl>
+          </Box>
         </DoubleBox>
-        {/*2번 선택 끝*/}
-        {/*3번 선택*/}
-        <Typography variant="h6" fontWeight="700">
-          3. 배송옵션 입력
+        {/*1번 선택 끝*/}
+        {/*2번 선택*/}
+        <Typography mb={4} variant="h6" fontWeight="700">
+          2. 예상 발송일 입력
         </Typography>
-        <DoubleBox
-          props1={{
-            mx: "50px",
-            my: "30px",
-            py: "15px",
-            px: "30px",
-            width: "700px",
-          }}
-          props2={{ p: 2 }}
-        >
-          <Typography mb={2} fontWeight="700">
-            적하보험 가입
-          </Typography>
-          <TextField sx={{ mb: 2 }} fullWidth label="예/아니오"></TextField>
-          <Typography mb={2} fontWeight="700">
-            FTA 원산지 증명서 대행발급
-          </Typography>
-          <TextField sx={{ mb: 2 }} fullWidth label="예/아니오"></TextField>
-          <Typography mb={2} fontWeight="700">
-            추가사항
-          </Typography>
-          <Box display="flex" alignItems="center">
-            <Box display="flex" width="150px" justifyContent="center">
-              <Typography fontWeight="700">LSS</Typography>
-            </Box>
-            <FormControl>
-              <RadioGroup row defaultValue="y" name="radio-buttons-group">
-                <FormControlLabel
-                  sx={{ mx: 4 }}
-                  value="y"
-                  control={<Radio />}
-                  label="포함"
-                />
-                <FormControlLabel
-                  value="n"
-                  control={<Radio />}
-                  label="미포함"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <Box display="flex" width="150px" justifyContent="center">
-              <Typography fontWeight="700">국내부대비용</Typography>
-            </Box>
-            <FormControl>
-              <RadioGroup row defaultValue="y" name="radio-buttons-group">
-                <FormControlLabel
-                  sx={{ mx: 4 }}
-                  value="y"
-                  control={<Radio />}
-                  label="포함"
-                />
-                <FormControlLabel
-                  value="n"
-                  control={<Radio />}
-                  label="미포함"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <Box display="flex" width="150px" justifyContent="center">
-              <Typography fontWeight="700">창고보관료</Typography>
-            </Box>
-            <FormControl>
-              <RadioGroup row defaultValue="y" name="radio-buttons-group">
-                <FormControlLabel
-                  sx={{ mx: 4 }}
-                  value="y"
-                  control={<Radio />}
-                  label="포함"
-                />
-                <FormControlLabel
-                  value="n"
-                  control={<Radio />}
-                  label="미포함"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-          <Box display="flex" alignItems="center">
-            <Box display="flex" width="150px" justifyContent="center">
-              <Typography fontWeight="700">운송 방식</Typography>
-            </Box>
-            <FormControl>
-              <RadioGroup row defaultValue="y" name="radio-buttons-group">
-                <FormControlLabel
-                  sx={{ mx: 4 }}
-                  value="y"
-                  control={<Radio />}
-                  label="독차"
-                />
-                <FormControlLabel
-                  value="n"
-                  control={<Radio />}
-                  label="화물택배"
-                />
-              </RadioGroup>
-            </FormControl>
-          </Box>
-        </DoubleBox>
+        <Box ml={4}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <DatePicker label="예상 발송일 선택" />
+          </LocalizationProvider>
+        </Box>
       </Box>
-      {/*3번 선택 끝*/}
+      {/*2번 선택 끝*/}
       {/*버튼*/}
       <Box width="300px" my={5} display="flex" justifyContent="space-between">
         <MyButton
-          type="negative"
+          job="negative"
           value="뒤로 가기"
           onClick={() => {
             setPageNumber(1);

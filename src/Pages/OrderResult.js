@@ -1,8 +1,16 @@
-import { Box } from "@mui/material";
+import {
+  Box,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+} from "@mui/material";
 
 import OrderHeader from "../components/OrderHeader";
 import BaseBox from "../components/BaseBox";
 import { useLocation } from "react-router-dom";
+import DoubleBox from "../components/DoubleBox";
 
 const OrderResult = () => {
   //전달받은 데이터를 서버로부터 전송해 결과를 얻는다.
@@ -24,7 +32,30 @@ const OrderResult = () => {
       >
         <OrderHeader pageNumber={3} />
       </Box>
-      오더결과
+      <DoubleBox
+        props1={{
+          mx: "50px",
+          my: "30px",
+          py: "15px",
+          px: "30px",
+          width: "700px",
+        }}
+        props2={{ p: 2, height: "500px" }}
+      >
+        오더결과
+        <FormControl>
+          <Select
+            sx={{
+              width: "150px",
+            }}
+            input={<OutlinedInput />}
+          >
+            <MenuItem value={1}>한국</MenuItem>
+            <MenuItem value={2}>유형2</MenuItem>
+            <MenuItem value={3}>유형3</MenuItem>
+          </Select>
+        </FormControl>
+      </DoubleBox>
     </BaseBox>
   );
 };
