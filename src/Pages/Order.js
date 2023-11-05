@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box } from "@mui/material";
@@ -18,6 +18,22 @@ const Order = () => {
   const [pageNumber, setPageNumber] = useState(1);
 
   const navigate = useNavigate();
+
+  const moveResultPage = () => {
+    navigate("/orderresult", {
+      replace: true,
+      state: {
+        obj, // 정리된 모든 입력 값(state들)이 포함될 예정
+      },
+    });
+  };
+
+  useEffect(() => {
+    if (pageNumber === 3) {
+      moveResultPage();
+    }
+    // 의존성 배열에 pageNumber를 넣어 pageNumber가 변경될 때만 이펙트가 실행되도록 한다.
+  }, [pageNumber]);
   return (
     <BaseBox>
       <Box
@@ -35,14 +51,6 @@ const Order = () => {
       </Box>
       {pageNumber === 1 && <OrderListFirst setPageNumber={setPageNumber} />}
       {pageNumber === 2 && <OrderListSecond setPageNumber={setPageNumber} />}
-      {pageNumber === 3 &&
-        navigate("/orderresult", {
-          replace: true,
-          state: {
-            //정리된 모든 입력 값(state들)이 포함될 예정
-            obj,
-          },
-        })}
     </BaseBox>
   );
 };
