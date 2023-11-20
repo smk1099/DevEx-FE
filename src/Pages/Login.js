@@ -22,17 +22,17 @@ const Login = () => {
   };
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post("YOUR_LOGIN_SERVER_URL", {
+      const response = await axios.post("/auth/login", {
         email: loginInfo.email,
         password: loginInfo.password,
       });
       console.log("Server Response:", response.data);
-
-      // 여기서 필요한 로직(예: 토큰 저장, 리다이렉트 등)을 추가할 수 있습니다.
+      const key = response.data["accessToken"];
+      //localStorage랑 Cookie에 저장할 예정
     } catch (error) {
       console.error("Login error:", error);
-      // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
     }
   };
 

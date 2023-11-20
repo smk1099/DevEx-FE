@@ -16,6 +16,7 @@ import HandList from "./Pages/HandList";
 import HandRegist from "./Pages/HandRegist";
 import HandInfo from "./Pages/HandInfo";
 import CompanySignup from "./Pages/CompanySignup";
+import MyPage from "./Pages/MyPage";
 
 function App() {
   const theme = createTheme({
@@ -65,6 +66,7 @@ function App() {
             <Route path="/handregist" element={<HandRegist />}></Route>
             <Route path="/handinfo" element={<HandInfo />}></Route>
             <Route path="/companysignup" element={<CompanySignup />}></Route>
+            <Route path="/mypage" element={<MyPage />}></Route>
           </Routes>
           <Footer />
         </Grid>

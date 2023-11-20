@@ -47,7 +47,13 @@ const Header = () => {
           핸드캐리 등록
         </Typography>
       </Box>
-      <Box component={Button} mx={3}>
+      <Box
+        component={Button}
+        mx={3}
+        onClick={() => {
+          navigate("/mypage");
+        }}
+      >
         <Typography sx={{ color: "white", fontWeight: "bold" }}>
           마이페이지
         </Typography>

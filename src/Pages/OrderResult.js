@@ -1,14 +1,4 @@
-import {
-  Box,
-  Button,
-  FormControl,
-  Grid,
-  InputLabel,
-  MenuItem,
-  OutlinedInput,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
 import OrderHeader from "../components/OrderHeader";
 import BaseBox from "../components/BaseBox";
@@ -16,42 +6,54 @@ import { useLocation } from "react-router-dom";
 import DoubleBox from "../components/DoubleBox";
 import OrderListResult from "../components/OrderListResult";
 import { useEffect, useState } from "react";
+import OrderResultInfo from "../components/OrderResultInfo";
 
 const OrderResult = () => {
   //전달받은 데이터를 서버로부터 전송해 결과를 얻는다.
   //그 결과를 바탕으로 페이지를 구성한다.
-  const location = useLocation();
-  console.log(location);
+  // const location = useLocation();
+  // console.log(location);
+
   const dummyData = [
     {
       name: "fedex",
       id: 1,
       price: 50000,
       arrivalDate: "2023-11-10",
+      corporationEmail: "fedex@email.com",
+      corporationTell: "02-xxxx-xxxx",
     },
     {
       name: "handcarry1",
       id: 2,
       price: 60000,
       arrivalDate: "2023-11-08",
+      corporationEmail: "hand1@email.com",
+      corporationTell: "02-xxxx-xxxx",
     },
     {
       name: "handcarry2",
       id: 3,
       price: 80000,
       arrivalDate: "2023-11-07",
+      corporationEmail: "hand2@email.com",
+      corporationTell: "02-xxxx-xxxx",
     },
     {
       name: "handcarry3",
       id: 4,
       price: 90000,
       arrivalDate: "2023-11-12",
+      corporationEmail: "hand3@email.com",
+      corporationTell: "02-xxxx-xxxx",
     },
     {
       name: "handcarry4",
       id: 5,
       price: 100000,
       arrivalDate: "2023-11-15",
+      corporationEmail: "hand4@email.com",
+      corporationTell: "02-xxxx-xxxx",
     },
   ];
 
@@ -174,12 +176,13 @@ const OrderResult = () => {
   const [selectSorted, setSelectSorted] = useState("Best");
   //선택된 정렬 기준(Best,Cheapest, Fastest)
 
-  const [selectResult, setSelectResult] = useState("");
+  const [selectResultId, setSelectResultId] = useState(-1);
   //선택된 배송 견적의 회사, 상세 가격 정보 및 컨설팅 안내를 위한 state
-
+  //OrderListResult에서 견적의 id로 접근할 예정
   const [resultList, setResultList] = useState(dummyData);
 
   useEffect(() => {
+    setSelectResultId(-1);
     if (selectSorted === "Best") {
       setResultList(BestList);
     } else if (selectSorted === "Cheapest") {
@@ -187,7 +190,7 @@ const OrderResult = () => {
     } else {
       setResultList(FastestList);
     }
-  }, [selectSorted]);
+  }, [selectSorted, setSelectResultId]);
 
   return (
     <BaseBox>
@@ -207,14 +210,14 @@ const OrderResult = () => {
       <Box display="flex" width="100%">
         <Box
           //section1
-          width="400px"
+          width="300px"
         ></Box>
         <Box
           //section2
           display="flex"
           flexDirection="column"
           alignItems="center"
-          width="700px"
+          width="600px"
         >
           <Grid
             container
@@ -228,7 +231,7 @@ const OrderResult = () => {
                 mt={3}
                 mb={5}
                 sx={{
-                  width: "200px",
+                  width: "175px",
                   borderRight: "1px solid grey",
                 }}
               >
@@ -275,12 +278,18 @@ const OrderResult = () => {
               </Box>
             ))}
           </Grid>
-          <OrderListResult resultList={resultList} />
+          <OrderListResult
+            resultList={resultList}
+            selectedSort={selectSorted}
+            setSelectResultId={setSelectResultId}
+            selectResultId={selectResultId}
+          />
         </Box>
-        <Box
-          flexGrow={1}
-          //section3
-        ></Box>
+        <Box flexGrow={1}>
+          <OrderResultInfo
+            selectData={dummyData.find((item) => item.id === selectResultId)}
+          />
+        </Box>
       </Box>
     </BaseBox>
   );

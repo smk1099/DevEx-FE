@@ -62,7 +62,7 @@ const Footer = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Typography sx={{ color: "#b6b6b6", fontSize: "1px" }}>
+          <Typography sx={{ color: "#b6b6b6", fontSize: "15px" }}>
             Make your exporting easy!
           </Typography>
         </Grid>
