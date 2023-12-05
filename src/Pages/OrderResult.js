@@ -7,14 +7,15 @@ import DoubleBox from "../components/DoubleBox";
 import OrderListResult from "../components/OrderListResult";
 import { useEffect, useState } from "react";
 import OrderResultInfo from "../components/OrderResultInfo";
+import axios from "axios";
+import Loading from "../components/Loading";
+import OrderRequestInfo from "../components/OrderRequestInfo";
 
 const OrderResult = () => {
   //전달받은 데이터를 서버로부터 전송해 결과를 얻는다.
   //그 결과를 바탕으로 페이지를 구성한다.
-  // const location = useLocation();
-  // console.log(location);
 
-  const dummyData = [
+  let dummyData = [
     {
       name: "fedex",
       id: 1,
@@ -181,6 +182,9 @@ const OrderResult = () => {
   //OrderListResult에서 견적의 id로 접근할 예정
   const [resultList, setResultList] = useState(dummyData);
 
+  const [isLoding, setIsLoding] = useState(true);
+  const [data, setData] = useState([]);
+
   useEffect(() => {
     setSelectResultId(-1);
     if (selectSorted === "Best") {
@@ -191,6 +195,41 @@ const OrderResult = () => {
       setResultList(FastestList);
     }
   }, [selectSorted, setSelectResultId]);
+
+  const location = useLocation();
+  const requestInfo = location.state.sendInfo;
+  const { startDate, ...newData } = requestInfo;
+
+  newData.weight = parseInt(newData.weight);
+  newData.lengthValue = parseInt(newData.lengthValue);
+  newData.widthValue = parseInt(newData.widthValue);
+  newData.heightValue = parseInt(newData.heightValue);
+  newData.boxCount = parseInt(newData.boxCount);
+
+  useEffect(() => {
+    async function getInfo() {
+      try {
+        const response = await axios.post("/api/search", newData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
+          },
+        });
+        console.log(response.data);
+        setData(response.data);
+        setIsLoding(false);
+
+        // 여기서 필요한 로직(예: 토큰 저장, 리다이렉트 등)을 추가할 수 있습니다.
+      } catch (error) {
+        console.error("error:", error);
+        // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
+      }
+    }
+    getInfo();
+  }, [requestInfo]);
+
+  if (isLoding) {
+    return <Loading />;
+  }
 
   return (
     <BaseBox>
@@ -207,6 +246,7 @@ const OrderResult = () => {
       >
         <OrderHeader pageNumber={3} />
       </Box>
+      <OrderRequestInfo requestInfo={requestInfo} newData={newData} />
       <Box display="flex" width="100%">
         <Box
           //section1

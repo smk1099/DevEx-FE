@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import axios from "axios";
@@ -7,6 +7,20 @@ import BaseBox from "../components/BaseBox";
 import MyButton from "../components/MyButton";
 
 const CompanySignup = () => {
+  const [logo, setLogo] = useState(null);
+  const [logoSrc, setLogoSrc] = useState(null);
+  const fileRef = useRef();
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setLogo(event.target.files[0]);
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => setLogoSrc(e.target.result);
+      reader.readAsDataURL(file);
+    }
+  };
+
   const [signupInfo, setSignupInfo] = useState({
     corpName: "",
     corpAuthNumber: "",
@@ -42,27 +56,45 @@ const CompanySignup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // form의 기본 제출 동작을 방지합니다.
+    const formData = new FormData();
+    formData.append("file", logo);
+    formData.append(
+      "corporationRequestDto",
+      new Blob(
+        [
+          JSON.stringify({
+            corpName: signupInfo.corpName,
+            businessNumber: signupInfo.corpAuthNumber,
+            email: signupInfo.email,
+            tell: signupInfo.tell,
+          }),
+        ],
+        { type: "application/json" }
+      )
+    );
+
     if (isAuth) {
       try {
-        const response = await axios.post("YOUR_LOGIN_SERVER_URL", {
-          corpName: signupInfo.corpName,
-          corpAuthNumber: signupInfo.corpAuthNumber,
-          email: signupInfo.email,
-          tell: signupInfo.tell,
+        const response = await axios.post("/api/corporation", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         });
-        console.log("Server Response:", response.data);
+        alert(
+          "기업 가입에 성공하셨습니다. 사업자번호로 인증 후 사용자 가입을 진행해주세요."
+        );
+        navigate("/signup");
 
         // 여기서 필요한 로직(예: 토큰 저장, 리다이렉트 등)을 추가할 수 있습니다.
       } catch (error) {
-        console.error("Login error:", error);
+        console.error("error:", error);
         // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
       }
     } else {
-      alert();
+      alert("사업자 번호 인증을 해주세요.");
     }
   };
   const navigate = useNavigate();
-
   return (
     <BaseBox>
       <Box
@@ -102,14 +134,47 @@ const CompanySignup = () => {
           <Typography fontWeight="700" variant="h5" color="primary">
             Company Infomation
           </Typography>
-          <Box mt={4}>로고</Box>
         </Box>
         <Box component="form" onSubmit={handleSubmit}>
+          <Box display="flex" gap={2}>
+            {logo ? (
+              <img
+                src={logoSrc}
+                alt="Logo"
+                style={{ width: "100px", height: "100px", borderRadius: "5px" }}
+              />
+            ) : (
+              <Box
+                sx={{
+                  width: "100px",
+                  height: "100px",
+                  border: "1px solid #b6b6b6ff",
+                  borderRadius: "5px",
+                }}
+              ></Box>
+            )}
+            <Box display="flex" flexDirection="column">
+              <Box flexGrow={1}></Box>
+              <input
+                accept="image/*"
+                id="logo-upload"
+                type="file"
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+                ref={fileRef}
+              />
+              <MyButton
+                value="기업 로고 등록"
+                onClick={() => fileRef.current.click()}
+              />
+            </Box>
+          </Box>
           <TextField
             margin="normal"
             required
             fullWidth
             id="corpName"
+            name="corp_name"
             label="Company Name"
             value={signupInfo.corpName}
             onChange={handleChange}
@@ -145,7 +210,6 @@ const CompanySignup = () => {
             required
             fullWidth
             id="tell"
-            type="password"
             label="Tell"
             value={signupInfo.tell}
             onChange={handleChange}

@@ -22,25 +22,26 @@ const UserSignup = ({ corporation }) => {
     }));
   };
 
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault(); // form의 기본 제출 동작을 방지합니다.
 
     try {
-      const response = await axios.post("YOUR_LOGIN_SERVER_URL", {
+      const response = await axios.post("/auth/signup", {
         name: signupInfo.name,
         corporation: signupInfo.corporation,
         email: signupInfo.email,
         password: signupInfo.password,
       });
       console.log("Server Response:", response.data);
-
+      alert("회원가입 성공했습니다.");
+      navigate("/login");
       // 여기서 필요한 로직(예: 토큰 저장, 리다이렉트 등)을 추가할 수 있습니다.
     } catch (error) {
       console.error("Login error:", error);
       // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
     }
   };
-  const navigate = useNavigate();
   return (
     <>
       <Box
@@ -54,7 +55,6 @@ const UserSignup = ({ corporation }) => {
           <Typography fontWeight="700" variant="h5" color="primary">
             User Signup
           </Typography>
-          <Box mt={4}>로고</Box>
         </Box>
         <Box component="form" onSubmit={handleSubmit}>
           <TextField

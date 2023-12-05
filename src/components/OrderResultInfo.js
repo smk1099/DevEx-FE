@@ -1,9 +1,13 @@
-import { Box, Icon, IconButton, Typography } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Box, Button, Icon, IconButton, Typography } from "@mui/material";
 
 import MyButton from "./MyButton";
+import { useEffect, useState } from "react";
 
 const OrderResultInfo = ({ selectData }) => {
+  const [consult, setConsult] = useState(false);
+  useEffect(() => {
+    setConsult(false);
+  }, []);
   if (!selectData) {
     return;
   } else {
@@ -13,36 +17,24 @@ const OrderResultInfo = ({ selectData }) => {
         mt={2}
         display="flex"
         flexDirection="column"
-        justifyContent="center"
         alignItems="center"
         sx={{
-          height: "700px",
+          height: "600px",
           backgroundColor: "#e9e7e7ff",
           borderRadius: "10px",
         }}
       >
         <Box
           width="75%"
-          height="50%"
           mb={15}
+          mt={10}
+          py={3}
           sx={{
             backgroundColor: "white",
             borderRadius: "10px",
             boxShadow: "0px 5px 10px 1px rgba(0, 0, 0, 0.5)",
           }}
         >
-          <Box mt={3} ml={2}>
-            <FavoriteBorderIcon
-              sx={{
-                color: "#b6b6b6ff",
-                transition: "0.2s", // 부드러운 배경색 변경을 위한 트랜지션
-                cursor: "pointer", // 마우스 오버 시 포인터 모양으로 변경
-                "&:hover": {
-                  backgroundColor: "#f5f5f5ff",
-                },
-              }}
-            />
-          </Box>
           <Box m={2} display="flex" justifyContent="space-between">
             <Typography> Company</Typography>
             <Typography> {selectData.name}</Typography>
@@ -68,14 +60,38 @@ const OrderResultInfo = ({ selectData }) => {
         컨설팅 연계를 위한 버튼
          */}
         <MyButton
-          value="Consult ->"
+          value="Consult"
           sx={{
             fontSize: "20px",
             fontWeight: "700",
             width: "120px",
             height: "60px",
           }}
+          onClick={() => {
+            setConsult(!consult);
+          }}
         />
+        <Box mt={2} display={consult ? "flex" : "none"}>
+          <Box
+            color="black"
+            component={Button}
+            onClick={() => {
+              window.open("https://www.kotra.or.kr/subList/20000006024");
+            }}
+          >
+            kotra
+          </Box>
+
+          <Box
+            color="black"
+            component={Button}
+            onClick={() => {
+              window.open("https://www.smes.go.kr/exportcenter/");
+            }}
+          >
+            중소벤처24
+          </Box>
+        </Box>
       </Box>
     );
   }

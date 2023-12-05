@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import {
   Box,
@@ -16,11 +16,63 @@ import BaseBox from "./BaseBox";
 import DoubleBox from "./DoubleBox";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 
-const OrderListSecond = ({ setPageNumber }) => {
-  //입력받는 변수들 이름 설정 필요, state를 통한 입력 정보 저장 예정
+const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
+  const weightRef = useRef();
+  const weightUnitRef = useRef();
+  const nameRef = useRef();
+  const categoryRef = useRef();
+  const startDateRef = useRef();
+  const lengthValueRef = useRef();
+  const widthValueRef = useRef();
+  const heightValueRef = useRef();
+  const lengthUnitRef = useRef();
+  const dangerRef = useRef();
+  const boxCountRef = useRef();
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [nextOk, setNextOk] = useState(false);
+
+  const checkInput = () => {
+    if (nameRef.current.value && weightRef.current.value) {
+      setNextOk(true);
+    } else {
+      setNextOk(false);
+    }
+  };
+
+  const calcWeight = (unit, weight) => {
+    if (unit === "G") {
+      return (weight * 0.001).toFixed(4);
+    } else {
+      return (weight * 0.45359).toFixed(4);
+    }
+  };
+
+  const handleSendInfo = () => {
+    if (weightUnitRef.current.value !== "KG") {
+      weightRef.current.value = calcWeight(
+        weightUnitRef.current.value,
+        weightRef.current.value
+      );
+      weightUnitRef.current.value = "KG";
+    }
+    setSendInfo({
+      ...sendInfo,
+      weight: weightRef.current.value,
+      weightUnit: weightUnitRef.current.value,
+      name: nameRef.current.value,
+      category: categoryRef.current.value,
+      startDate: startDateRef.current.value,
+      lengthValue: lengthValueRef.current.value,
+      widthValue: widthValueRef.current.value,
+      heightValue: heightValueRef.current.value,
+      lengthUnit: lengthUnitRef.current.value,
+      boxCount: boxCountRef.current.value,
+      danger: dangerRef.current.value,
+    });
+    setPageNumber(3);
+  };
   return (
     <BaseBox>
       <Box mt={5} width="900px">
@@ -35,13 +87,25 @@ const OrderListSecond = ({ setPageNumber }) => {
             py: "15px",
             px: "30px",
             width: "700px",
+            borderRadius: "5px",
           }}
-          props2={{ p: 2, height: "500px" }}
+          props2={{ p: 2, borderRadius: "5px" }}
         >
-          <Typography mb={2} fontWeight="700">
-            품명
-          </Typography>
-          <TextField sx={{ mb: 2 }} fullWidth label="상세품명 입력"></TextField>
+          <Box display="flex" justifyContent="space-between">
+            <Box width="100%">
+              <Typography mb={2} fontWeight="700">
+                품명
+              </Typography>
+              <TextField
+                onChange={checkInput}
+                inputRef={nameRef}
+                sx={{ mb: 2 }}
+                fullWidth
+                label="상세품명 입력"
+              ></TextField>
+            </Box>
+          </Box>
+
           <Box mb={2} display="flex" justifyContent="space-between">
             <Box>
               <Typography mb={2} fontWeight="700">
@@ -50,12 +114,15 @@ const OrderListSecond = ({ setPageNumber }) => {
               <FormControl>
                 <InputLabel>유형 선택</InputLabel>
                 <Select
+                  defaultValue="식료품"
+                  inputRef={categoryRef}
                   sx={{ width: "150px" }}
                   input={<OutlinedInput label="유형 선택" />}
                 >
-                  <MenuItem value={1}>유형1</MenuItem>
-                  <MenuItem value={2}>유형2</MenuItem>
-                  <MenuItem value={3}>유형3</MenuItem>
+                  <MenuItem value={"식료품"}>식료품</MenuItem>
+                  <MenuItem value={"착"}>책</MenuItem>
+                  <MenuItem value={"전자기기"}>전자기기</MenuItem>
+                  <MenuItem value={"기타"}>기타</MenuItem>
                 </Select>
               </FormControl>
             </Box>
@@ -63,7 +130,12 @@ const OrderListSecond = ({ setPageNumber }) => {
               <Typography mb={2} fontWeight="700">
                 무게
               </Typography>
-              <TextField sx={{ width: "150px" }} label="무게 입력"></TextField>
+              <TextField
+                onChange={checkInput}
+                inputRef={weightRef}
+                sx={{ width: "150px" }}
+                label="무게 입력"
+              ></TextField>
             </Box>
             <Box>
               <Typography mb={2} fontWeight="700">
@@ -72,33 +144,42 @@ const OrderListSecond = ({ setPageNumber }) => {
               <FormControl>
                 <InputLabel>유형 선택</InputLabel>
                 <Select
+                  defaultValue="KG"
+                  inputRef={weightUnitRef}
                   sx={{ width: "150px" }}
                   input={<OutlinedInput label="단위 선택" />}
                 >
-                  <MenuItem value={1}>Kg</MenuItem>
-                  <MenuItem value={2}>유형2</MenuItem>
-                  <MenuItem value={3}>유형3</MenuItem>
+                  <MenuItem value={"KG"}>Kg</MenuItem>
+                  <MenuItem value={"G"}>g</MenuItem>
+                  <MenuItem value={"LB"}>lb</MenuItem>
                 </Select>
               </FormControl>
             </Box>
           </Box>
-          <Box mt={5} mb={2} display="flex" justifyContent="space-between">
+          <Typography color="primary" fontSize="10px">
+            부피
+          </Typography>
+          <Box mb={2} display="flex" justifyContent="space-between">
             <Box>
               <Typography mb={2} fontWeight="700">
-                길이
+                가로
               </Typography>
               <TextField
+                inputRef={lengthValueRef}
+                onChange={checkInput}
                 sx={{ width: "150px" }}
-                label="포장 포함 길이"
+                label="길이 입력"
               ></TextField>
             </Box>
             <Box>
               <Typography mb={2} fontWeight="700">
-                너비
+                세로
               </Typography>
               <TextField
+                inputRef={widthValueRef}
+                onChange={checkInput}
                 sx={{ width: "150px" }}
-                label="포장 포함 너비"
+                label="길이 입력"
               ></TextField>
             </Box>
             <Box>
@@ -106,26 +187,59 @@ const OrderListSecond = ({ setPageNumber }) => {
                 높이
               </Typography>
               <TextField
+                inputRef={heightValueRef}
+                onChange={checkInput}
                 sx={{ width: "150px" }}
-                label="포장 포함 높이"
+                label="길이 입력"
               ></TextField>
             </Box>
+            <Box>
+              <Typography mb={2} fontWeight="700">
+                길이 단위
+              </Typography>
+              <FormControl>
+                <InputLabel>유형 선택</InputLabel>
+                <Select
+                  inputRef={lengthUnitRef}
+                  defaultValue="CM"
+                  sx={{ width: "150px" }}
+                  input={<OutlinedInput label="단위 선택" />}
+                >
+                  <MenuItem value={"CM"}>CM</MenuItem>
+                  <MenuItem value={"M"}>M</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
           </Box>
-          <Box>
-            <Typography mb={2} fontWeight="700">
-              길이 측정 단위
-            </Typography>
-            <FormControl>
-              <InputLabel>단위 선택</InputLabel>
-              <Select
-                sx={{ width: "150px" }}
-                input={<OutlinedInput label="단위 선택" />}
-              >
-                <MenuItem value={1}>cm</MenuItem>
-                <MenuItem value={2}>유형2</MenuItem>
-                <MenuItem value={3}>유형3</MenuItem>
-              </Select>
-            </FormControl>
+          <Box mb={2} display="flex" width="100%">
+            <Box>
+              <Typography mb={2} fontWeight="700">
+                위험물 여부
+              </Typography>
+              <FormControl>
+                <InputLabel>여부 선택</InputLabel>
+                <Select
+                  inputRef={dangerRef}
+                  defaultValue={false}
+                  sx={{ width: "150px" }}
+                  input={<OutlinedInput label="여부 선택" />}
+                >
+                  <MenuItem value={false}>X</MenuItem>
+                  <MenuItem value={true}>O</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box flexGrow={1} ml={3}>
+              <Typography mb={2} fontWeight="700">
+                박스 수량
+              </Typography>
+              <TextField
+                inputRef={boxCountRef}
+                onChange={checkInput}
+                fullWidth
+                label="수량 입력"
+              ></TextField>
+            </Box>
           </Box>
         </DoubleBox>
         {/*1번 선택 끝*/}
@@ -135,7 +249,11 @@ const OrderListSecond = ({ setPageNumber }) => {
         </Typography>
         <Box ml={4}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DatePicker label="예상 발송일 선택" />
+            <DatePicker
+              defaultValue={dayjs(new Date())}
+              inputRef={startDateRef}
+              label="예상 발송일 선택"
+            />
           </LocalizationProvider>
         </Box>
       </Box>
@@ -151,10 +269,9 @@ const OrderListSecond = ({ setPageNumber }) => {
           sx={{ width: "100px", height: "50px" }}
         />
         <MyButton
+          disabled={nextOk ? "false" : "true"}
           value="결과 조회"
-          onClick={() => {
-            setPageNumber(3);
-          }}
+          onClick={handleSendInfo}
           sx={{ width: "100px", height: "50px" }}
         />
       </Box>

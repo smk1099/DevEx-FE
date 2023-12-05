@@ -29,8 +29,18 @@ const Login = () => {
         password: loginInfo.password,
       });
       console.log("Server Response:", response.data);
-      const key = response.data["accessToken"];
-      //localStorage랑 Cookie에 저장할 예정
+      localStorage.setItem("loginToken", response.data["accessToken"]);
+      localStorage.setItem("refreshToken", response.data["refreshToken"]);
+      const userResponse = await axios.get("/api/user/detail", {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
+        },
+      });
+      console.log("login info : ", userResponse.data);
+      localStorage.setItem("myName", userResponse.data["username"]);
+      localStorage.setItem("isLogin", true);
+      localStorage.setItem("userInfo", JSON.stringify(userResponse.data));
+      navigate("/");
     } catch (error) {
       console.error("Login error:", error);
     }
@@ -46,7 +56,18 @@ const Login = () => {
         height="700px"
       >
         <Box display="flex" justifyContent="center">
-          로고
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 369 336"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M343.75 223.747V195.779L210.938 125.858V48.9447C210.938 37.3378 200.469 27.9684 187.5 27.9684C174.531 27.9684 164.062 37.3378 164.062 48.9447V125.858L31.25 195.779V223.747L164.062 188.787V265.7L125 286.676V307.652L187.5 293.668L250 307.652V286.676L210.938 265.7V188.787L343.75 223.747Z"
+              fill="black"
+            />
+          </svg>
         </Box>
         <Box display="flex" justifyContent="center" my={4}>
           <Typography color="primary" variant="h4" sx={{ fontWeight: "700" }}>

@@ -14,9 +14,7 @@ const Footer = () => {
             flexGrow={1}
             justifyContent="center"
             sx={{ mt: 8 }}
-          >
-            로고
-          </Grid>
+          ></Grid>
         </Grid>
       </Toolbar>
       <Toolbar sx={{ width: "90%", m: "0 auto" }}>
@@ -28,7 +26,7 @@ const Footer = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Grid
+          {/* <Grid
             mx={2}
             minHeight={10}
             minWidth={10}
@@ -51,7 +49,7 @@ const Footer = () => {
             minHeight={10}
             minWidth={10}
             sx={{ border: "1px solid" }}
-          ></Grid>
+          ></Grid> */}
         </Grid>
       </Toolbar>
       <Toolbar sx={{ width: "90%", m: "0 auto" }}>
