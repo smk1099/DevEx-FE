@@ -2,11 +2,11 @@ import { Box } from "@mui/material";
 import HandItem from "./HandItem";
 import React from "react";
 
-const HandList = ({ objList }) => {
+const HandList = ({ handList }) => {
   return (
     <Box>
       <Box ml={2}>
-        {objList.map((item, index) => (
+        {handList.map((item, index) => (
           <HandItem key={index} obj={item} />
         ))}
       </Box>

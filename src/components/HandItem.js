@@ -6,7 +6,6 @@ const HandItem = ({ obj }) => {
   return (
     <Box
       width="80%"
-      height="100px"
       sx={{
         mx: 0,
         my: 2,
@@ -39,6 +38,9 @@ const HandItem = ({ obj }) => {
           </Typography>
           <Typography fontWeight={"700"}>
             Max weight : {obj.maxWeight}Kg
+          </Typography>
+          <Typography fontWeight={"700"}>
+            예상 소요일 : {obj.expectedDate}일
           </Typography>
         </Box>
       </Box>

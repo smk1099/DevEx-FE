@@ -9,7 +9,7 @@ import Loading from "../components/Loading";
 const MyPage = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
-  const [objList, setObjList] = useState([]);
+
   const dummyData = [
     {
       startPoint: "KR",
@@ -38,7 +38,6 @@ const MyPage = () => {
         });
         console.log("userResponse : ", userResponse.data);
         setUserInfo(userResponse.data);
-        setObjList(userResponse.data.corporation["handcarryList"]);
       } catch (error) {
         const errorCode = error.response["status"];
         alert("서버와의 통신 오류 발생 error code : ", errorCode);
@@ -127,7 +126,7 @@ const MyPage = () => {
               핸드캐리 등록 정보
             </Typography>
           </Box>
-          <HandList objList={objList} />
+          <HandList handList={userInfo.corporation["handcarryList"]} />
         </Box>
         <Box pl={10} width="50%">
           <Box my={4}>
