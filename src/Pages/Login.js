@@ -42,6 +42,7 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(userResponse.data));
       navigate("/");
     } catch (error) {
+      alert("이메일과 비밀번호를 확인하세요.");
       console.error("Login error:", error);
     }
   };

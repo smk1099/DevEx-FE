@@ -5,29 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import HandList from "../components/HandList";
 import Loading from "../components/Loading";
+import BookMarkList from "../components/BookMarkList";
 
 const MyPage = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
 
-  const dummyData = [
-    {
-      startPoint: "KR",
-      endPoint: "CH",
-      unitCosts: 78000,
-      maxWeight: 1000,
-      corporation: "준우회사",
-      bannedItemList: null,
-    },
-    {
-      startPoint: "KR",
-      endPoint: "US",
-      unitCosts: 100000,
-      maxWeight: 30,
-      corporation: "삼성성",
-      bannedItemList: null,
-    },
-  ];
   useEffect(() => {
     const requestInfo = async () => {
       try {
@@ -128,38 +111,13 @@ const MyPage = () => {
           </Box>
           <HandList handList={userInfo.corporation["handcarryList"]} />
         </Box>
-        <Box pl={10} width="50%">
+        <Box pl={10}>
           <Box my={4}>
             <Typography variant="h5" fontWeight="800">
               관심있는 견적
             </Typography>
           </Box>
-          <Box ml={2}>
-            <Box
-              width="80%"
-              height="100px"
-              sx={{ border: "1px solid black" }}
-              my={2}
-            ></Box>
-            <Box
-              width="80%"
-              height="100px"
-              sx={{ border: "1px solid black" }}
-              my={2}
-            ></Box>
-            <Box
-              width="80%"
-              height="100px"
-              sx={{ border: "1px solid black" }}
-              my={2}
-            ></Box>
-            <Box
-              width="80%"
-              height="100px"
-              sx={{ border: "1px solid black" }}
-              my={2}
-            ></Box>
-          </Box>
+          <BookMarkList bookMarkList={userInfo.bookMarkList} />
         </Box>
       </Box>
     </BaseBox>

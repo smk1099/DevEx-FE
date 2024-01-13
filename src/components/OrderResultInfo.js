@@ -45,7 +45,7 @@ const OrderResultInfo = ({ selectData }) => {
           </Box>
           <Box m={2} display="flex" justifyContent="space-between">
             <Typography> 예상 요금</Typography>
-            <Typography> $ {selectData.price}</Typography>
+            <Typography> ₩ {selectData.price}</Typography>
           </Box>
           <Box m={2} display="flex" justifyContent="space-between">
             <Typography> 회사 Email</Typography>

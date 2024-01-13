@@ -3,8 +3,7 @@ import BaseBox from "../components/BaseBox";
 
 const Home = () => {
   //홈페이지
-  console.log(localStorage.getItem("loginToken"));
-  console.log(localStorage.getItem("loginToken"));
+
   return (
     <BaseBox>
       <Box sx={{ width: "80%", boxSizing: "border-box" }}>

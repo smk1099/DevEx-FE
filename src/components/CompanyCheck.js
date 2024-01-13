@@ -34,7 +34,10 @@ const CompanyCheck = ({ setCorporation, setIsCheck }) => {
         //setIsCheck()와 setCorporation() 호출
         // 여기서 필요한 로직(예: 토큰 저장, 리다이렉트 등)을 추가할 수 있습니다.
       } catch (error) {
-        console.log(error);
+        if (error.response.status === 409) {
+          alert("등록된 사업자번호가 없습니다. 회사 등록을 진행해주세요.");
+          navigate("/companysignup");
+        }
         // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
       }
     } else {

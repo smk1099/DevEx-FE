@@ -3,28 +3,10 @@ import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import CountryCodeArray from "../util/CountryCodeArray";
+import { useState } from "react";
 const OrderRequestInfo = ({ requestInfo, newData, myKey }) => {
   const [bookmarkKey, setBookmarkKey] = useState(myKey);
-  useEffect(() => {
-    setBookmarkKey(myKey);
-  }, [myKey]);
-
-  const navigate = useNavigate();
-
-  const moveOrderPage = () => {
-    navigate("/order", {
-      replace: true,
-      state: {
-        requestInfo, // 정리된 모든 입력 값(state들)이 포함될 예정
-      },
-    });
-  };
-
-  const bookmarkRequest = async (e) => {
-    e.stopPropagation();
+  const bookmarkRequest = async () => {
     try {
       const response = await axios.post("/api/bookmark", newData, {
         headers: {
@@ -32,26 +14,17 @@ const OrderRequestInfo = ({ requestInfo, newData, myKey }) => {
         },
       });
       setBookmarkKey(response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
-  const bookmarkDeleteRequest = async (e) => {
-    e.stopPropagation();
-    const isConfirmed = window.confirm("즐겨찾기를 해제하시겠습니까?");
-
-    if (isConfirmed) {
-      try {
-        const response = await axios.delete(`/api/bookmark/${bookmarkKey}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
-          },
-        });
-        setBookmarkKey(null);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  const bookmarkDeleteRequest = async () => {
+    try {
+      const response = await axios.delete(`/api/bookmark/${bookmarkKey}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("loginToken")}`,
+        },
+      });
+      setBookmarkKey(null);
+    } catch (error) {}
   };
 
   return (
@@ -62,20 +35,7 @@ const OrderRequestInfo = ({ requestInfo, newData, myKey }) => {
       alignItems="center"
       my={5}
       p={2}
-      sx={
-        myKey
-          ? {
-              boxShadow: "0px 0px 5px 3px rgba(0, 0, 0, 0.1)",
-              borderRadius: "5px",
-              transition: "0.2s", // 부드러운 배경색 변경을 위한 트랜지션
-              cursor: "pointer", // 마우스 오버 시 포인터 모양으로 변경
-              "&:hover": {
-                backgroundColor: "#f5f5f5ff",
-              },
-            }
-          : { border: "1px solid black", borderRadius: "5px" }
-      }
-      onClick={myKey ? moveOrderPage : () => {}}
+      sx={{ border: "1px solid black", borderRadius: "5px" }}
     >
       <Box display="flex" width="100%">
         <Box mt={1} ml={2}>
@@ -110,23 +70,14 @@ const OrderRequestInfo = ({ requestInfo, newData, myKey }) => {
           화물 정보
         </Typography>
       </Box>
-      {requestInfo.startDate ? (
-        <Typography fontWeight="700">
-          예상 발송일 : {requestInfo.startDate}
-        </Typography>
-      ) : (
-        <></>
-      )}
 
+      <Typography fontWeight="700">
+        예상 발송일 : {requestInfo.startDate}
+      </Typography>
       <Box display="flex" alignItems="center">
         <Box>
           <Typography fontWeight="700">
-            출발 국가 :{" "}
-            {
-              CountryCodeArray.find(
-                (c) => c.CountryCode === requestInfo.shipperCountryCode
-              ).이름
-            }
+            출발 국가 코드 : {requestInfo.shipperCountryCode}
           </Typography>
           <Typography fontWeight="700">
             출발지 우편번호 : {requestInfo.shipperPostalCode}
@@ -142,12 +93,7 @@ const OrderRequestInfo = ({ requestInfo, newData, myKey }) => {
         </Box>
         <Box>
           <Typography fontWeight="700">
-            도착 국가 :{" "}
-            {
-              CountryCodeArray.find(
-                (c) => c.CountryCode === requestInfo.recipientCountryCode
-              ).이름
-            }
+            도착 국가 코드 : {requestInfo.recipientCountryCode}
           </Typography>
           <Typography fontWeight="700">
             도착지 우편번호 : {requestInfo.recipientPostalCode}

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   Box,
@@ -41,6 +41,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
     }
   };
 
+  useEffect(checkInput, []);
   const calcWeight = (unit, weight) => {
     if (unit === "G") {
       return (weight * 0.001).toFixed(4);
@@ -102,6 +103,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 sx={{ mb: 2 }}
                 fullWidth
                 label="상세품명 입력"
+                defaultValue={sendInfo.name}
               ></TextField>
             </Box>
           </Box>
@@ -114,7 +116,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
               <FormControl>
                 <InputLabel>유형 선택</InputLabel>
                 <Select
-                  defaultValue="식료품"
+                  defaultValue={sendInfo.category}
                   inputRef={categoryRef}
                   sx={{ width: "150px" }}
                   input={<OutlinedInput label="유형 선택" />}
@@ -135,6 +137,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 inputRef={weightRef}
                 sx={{ width: "150px" }}
                 label="무게 입력"
+                defaultValue={sendInfo.weight}
               ></TextField>
             </Box>
             <Box>
@@ -144,7 +147,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
               <FormControl>
                 <InputLabel>유형 선택</InputLabel>
                 <Select
-                  defaultValue="KG"
+                  defaultValue={sendInfo.weightUnit}
                   inputRef={weightUnitRef}
                   sx={{ width: "150px" }}
                   input={<OutlinedInput label="단위 선택" />}
@@ -169,6 +172,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 onChange={checkInput}
                 sx={{ width: "150px" }}
                 label="길이 입력"
+                defaultValue={sendInfo.lengthValue}
               ></TextField>
             </Box>
             <Box>
@@ -180,6 +184,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 onChange={checkInput}
                 sx={{ width: "150px" }}
                 label="길이 입력"
+                defaultValue={sendInfo.widthValue}
               ></TextField>
             </Box>
             <Box>
@@ -191,6 +196,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 onChange={checkInput}
                 sx={{ width: "150px" }}
                 label="길이 입력"
+                defaultValue={sendInfo.heightValue}
               ></TextField>
             </Box>
             <Box>
@@ -201,7 +207,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 <InputLabel>유형 선택</InputLabel>
                 <Select
                   inputRef={lengthUnitRef}
-                  defaultValue="CM"
+                  defaultValue={sendInfo.lengthUnit}
                   sx={{ width: "150px" }}
                   input={<OutlinedInput label="단위 선택" />}
                 >
@@ -220,7 +226,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 <InputLabel>여부 선택</InputLabel>
                 <Select
                   inputRef={dangerRef}
-                  defaultValue={false}
+                  defaultValue={sendInfo.danger}
                   sx={{ width: "150px" }}
                   input={<OutlinedInput label="여부 선택" />}
                 >
@@ -238,6 +244,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
                 onChange={checkInput}
                 fullWidth
                 label="수량 입력"
+                defaultValue={sendInfo.boxCount}
               ></TextField>
             </Box>
           </Box>
@@ -250,7 +257,7 @@ const OrderListSecond = ({ sendInfo, setSendInfo, setPageNumber }) => {
         <Box ml={4}>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
-              defaultValue={dayjs(new Date())}
+              defaultValue={sendInfo.startDate}
               inputRef={startDateRef}
               label="예상 발송일 선택"
             />

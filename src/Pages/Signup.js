@@ -36,15 +36,6 @@ const Signup = () => {
           borderTop: "50px solid",
         }}
       />
-      <Button
-        onClick={() => {
-          setIsCheck(isCheck === 0 ? 1 : 0);
-        }}
-      >
-        {isCheck === 0
-          ? "test 버튼(유저 등록 페이지로 이동)"
-          : "test 버튼(뒤로가기)"}
-      </Button>
       {isCheck === 0 && (
         <CompanyCheck setCorporation={setCorporation} setIsCheck={setIsCheck} />
       )}

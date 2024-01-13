@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import BaseBox from "./BaseBox";
 import CountryCodeArray from "../util/CountryCodeArray";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const OrderListFirst = ({ sendInfo, setSendInfo, setPageNumber }) => {
   const countryCodeArray = CountryCodeArray;
@@ -45,6 +45,8 @@ const OrderListFirst = ({ sendInfo, setSendInfo, setPageNumber }) => {
       setNextOk(false);
     }
   };
+
+  useEffect(checkInput, []);
   return (
     <BaseBox>
       <Box mt={5} display="flex">
@@ -56,7 +58,7 @@ const OrderListFirst = ({ sendInfo, setSendInfo, setPageNumber }) => {
             <FormControl>
               <Select
                 inputRef={startCountryCodeRef}
-                defaultValue="KR"
+                defaultValue={sendInfo.shipperCountryCode}
                 sx={{ width: "200px" }}
               >
                 {countryCodeArray.map((entity, index) => (
@@ -76,6 +78,7 @@ const OrderListFirst = ({ sendInfo, setSendInfo, setPageNumber }) => {
               inputRef={startPostalCodeRef}
               width="200px"
               label="우편번호 입력"
+              defaultValue={sendInfo.shipperPostalCode}
             ></TextField>
           </Box>
         </Box>
@@ -94,7 +97,7 @@ const OrderListFirst = ({ sendInfo, setSendInfo, setPageNumber }) => {
             </Typography>
             <FormControl>
               <Select
-                defaultValue="CH"
+                defaultValue={sendInfo.recipientCountryCode}
                 inputRef={endCountryCodeRef}
                 sx={{ width: "200px" }}
               >
@@ -115,6 +118,7 @@ const OrderListFirst = ({ sendInfo, setSendInfo, setPageNumber }) => {
               inputRef={endPostalCodeRef}
               width="200px"
               label="우편번호 입력"
+              defaultValue={sendInfo.recipientPostalCode}
             ></TextField>
           </Box>
         </Box>

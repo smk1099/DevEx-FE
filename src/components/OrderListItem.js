@@ -33,15 +33,11 @@ const OrderListItem = ({
         alignItems="center"
         width="100px"
       >
-        {/* 아이콘 넣을 시 사용할 코드
-        <Icon>
-              <img
-                src="fedex_icon.png"
-                alt="FedEx"
-                style={{ width: "100%", height: "100%" }}
-              />
-            </Icon> */}
-        {data.name}
+        <Box
+          component="img"
+          src={data.profileImageUrl}
+          sx={{ width: "70px", height: "70px" }}
+        ></Box>
       </Box>
       <Box
         display="flex"
@@ -57,7 +53,7 @@ const OrderListItem = ({
         alignItems="center"
         width="100px"
       >
-        <Typography fontWeight="700"> $ {data.price}</Typography>
+        <Typography fontWeight="700"> ₩ {data.price}</Typography>
       </Box>
     </Box>
   );

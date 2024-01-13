@@ -47,10 +47,20 @@ const CompanySignup = () => {
     }));
   };
 
-  const handleAuth = () => {
+  const handleAuth = async () => {
     //사업자 번호 인증하는 부분, if문에 사업자 인증할 수 있는 코드 입력 필요.
     if (checkNumber(signupInfo.corpAuthNumber)) {
-      setIsAuth(true);
+      try {
+        const response = await axios.get(
+          `/api/corporation/${parseInt(signupInfo.corpAuthNumber)}`
+        );
+        alert("이미 등록된 사업자번호입니다.");
+      } catch (error) {
+        if (error.response.status === 409) {
+          setIsAuth(true);
+        }
+        // 로그인 실패 메시지를 사용자에게 보여줄 수 있습니다.
+      }
     }
   };
 
