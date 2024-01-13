@@ -6,7 +6,9 @@ logs
 **/*.back.*
 
 node_modules/
+public/
 bower_components
+src/setupProxy.js
 
 *.sublime*
 
